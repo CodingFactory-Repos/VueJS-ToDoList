@@ -1,0 +1,26 @@
+name: Sync Fork
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-fork:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du référentiel
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - name: Ajout du référentiel d'origine en tant que remote
+        run: git remote add upstream https://github.com/Coding-Factory-L3/TodoList-VueJS.git
+
+      - name: Récupération des changements du référentiel d'origine
+        run: git fetch upstream
+
+      - name: Fusionner les changements du référentiel d'origine dans la branche principale
+        run: git merge upstream/main --no-edit
+
+      - name: Pousser les changements vers votre fork
+        run: git push origin main
